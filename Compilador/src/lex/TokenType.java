@@ -1,0 +1,41 @@
+package lex;
+
+public enum TokenType {
+	EOF(0),
+	ERROR(-1),
+	IDENTIFICADOR(256),
+	NUMERO(257),
+	ASIGNACION(259),
+	FIN_DE_LINEA(260),
+	LLAVE_ABRE(264),
+	LLAVE_CIERRA(265),
+	PAR_PARENTESIS_ABRE(266),
+	PAR_PARENTESIS_CIERRA(267),
+	OPERADOR_SUMA(269),
+	OPERADOR_RESTA(270),
+	OPERADOR_MULTIPLICACION(271),
+	OPERADOR_DIVISION(272),
+	COMPARADOR_IGUAL(273),
+	COMPARADOR_DISTINTO(274),
+	COMPARADOR_MENOR(275),
+	COMPARADOR_MAYOR(276),
+	COMPARADOR_MENOR_IGUAL(277),
+	COMPARADOR_MAYOR_IGUAL(278),
+	
+	OPERADOR_not(281);
+	
+	private final int code;
+	
+	TokenType(int code) 
+	{ 
+		this.code = code; 
+	}
+	
+	public int code() 
+	{
+		return code;
+	}
+
+	
+	
+}
