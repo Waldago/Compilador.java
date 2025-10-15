@@ -122,7 +122,7 @@ public class Programa {
 		int columna;
 		int fila;
 		//LEO EL ARCHIVO
-		try(FileReader Lector = new FileReader("/Users/waltergomez/eclipse-workspace/Compilador/src/lex/pruebas/validas/test1.txt")){
+		try(FileReader Lector = new FileReader("\\Users\\maxim\\OneDrive\\Escritorio\\Universidad\\4) Cuarto Año\\Desarrollo de Compiladores\\Trabajo Practico\\Compilador.java\\Compilador\\src\\lex\\pruebas\\validas\\test1.txt")){
 			while((codigo = Lector.read()) > -1) {
 				char c = (char) codigo;
 				columna = getColumna(c);
@@ -156,7 +156,6 @@ public class Programa {
 								break;
 						}
 					}else{
-						palabra = Function_table.getValor();
 						ListaTokens.tokens.add(new Token(TokenType.IDENTIFICADOR.code(),TokenType.IDENTIFICADOR.name(),palabra,1));
 					}
 				}else if (resultado == 3) {
