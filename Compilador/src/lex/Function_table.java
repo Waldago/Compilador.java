@@ -133,7 +133,7 @@ public class Function_table {
 		//System.out.println("Se formo el numero: "+ number);
 		valor = number;
 		contador = 0;
-		return 2;
+		return 3;
 	}
 	
 	public static int do_nothing() {

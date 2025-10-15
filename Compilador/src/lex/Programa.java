@@ -159,6 +159,9 @@ public class Programa {
 						palabra = Function_table.getValor();
 						ListaTokens.tokens.add(new Token(TokenType.IDENTIFICADOR.code(),TokenType.IDENTIFICADOR.name(),palabra,1));
 					}
+				}else if (resultado == 3) {
+					palabra = Function_table.getValor();
+					ListaTokens.tokens.add(new Token(TokenType.NUMERO.code(),TokenType.NUMERO.name(),palabra,1));
 				}
 				//System.out.println("El caracter es: " + c + " Su columna es: " + getColumna(c)+ " su fila es: "+ fila);
 			}
