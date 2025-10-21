@@ -21,7 +21,6 @@ public enum TokenType {
 	COMPARADOR_MAYOR(276),
 	COMPARADOR_MENOR_IGUAL(277),
 	COMPARADOR_MAYOR_IGUAL(278),
-	
 	OPERADOR_not(281);
 	
 	private final int code;

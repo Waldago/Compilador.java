@@ -123,14 +123,12 @@ public class Function_table {
 	}
 	
 	public static int finish_var() {
-		//System.out.println("Se formo la palabra: " + ID);
 		valor = ID;
 		contador = 0;
 		return 2;
 	}
 	
 	public static int finish_int() {
-		//System.out.println("Se formo el numero: "+ number);
 		valor = number;
 		contador = 0;
 		return 3;

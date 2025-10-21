@@ -7,8 +7,9 @@ public class Programa {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+	
 		/*
-		//AQUI MIRO EL CODIGO DE MI TOKEN
+		AQUI MIRO EL CODIGO DE MI TOKEN
 		TokenType a = TokenType.COMPARADOR_MENOR;
 		System.out.println(a.code());
 		
@@ -55,57 +56,31 @@ public class Programa {
 		lc.leerArchivo();
 		*/
 		leerArchivo();
+		ListaSimbolos.imprimirLista();
+		
+		//System.out.println(TokenTable.getCodigo(3, 15));
 	}
 	
 	
 	public static int columna;
 	
-	public static int getColumna(char a) {
+	public static int getColumna(char a) 
+	{
 		//EVALUA SI a ES UNA LETRA
-		if(Character.isLetter(a)) {
-			return 0;
-		};
+		if(Character.isLetter(a))return 0;
 		//EVALUA SI a ES UN NUMERO
-		if(Character.isDigit(a)){
-			return 1;
-		};
+		if(Character.isDigit(a)) return 1;
 		//EVALUA SI a ES UN ESPACIO EN BLANCO, UN SALTO DE LINEA O UNA TABULACION
-		if(Character.isWhitespace(a)) {
-			return 15;
-		}
-		if(a == '{') {
-			ListaTokens.tokens.add(new Token(TokenType.LLAVE_ABRE.code(),TokenType.LLAVE_ABRE.name(),Character.toString(a) ,1));
-			return 2;
-		}
-		if(a == '}') {
-			ListaTokens.tokens.add(new Token(TokenType.LLAVE_CIERRA.code(),TokenType.LLAVE_CIERRA.name(),Character.toString(a),1));
-			return 3;
-			}
-		if(a == '(') {
-			ListaTokens.tokens.add(new Token(TokenType.PAR_PARENTESIS_CIERRA.code(),TokenType.PAR_PARENTESIS_CIERRA.name(),Character.toString(a),1));
-			return 4;
-		}
-		if(a == ')') {
-			ListaTokens.tokens.add(new Token(TokenType.PAR_PARENTESIS_CIERRA.code(),TokenType.PAR_PARENTESIS_CIERRA.name(),Character.toString(a),1));
-			return 5;
-		}
-		if(a == ';') {
-			ListaTokens.tokens.add(new Token(TokenType.FIN_DE_LINEA.code(),TokenType.FIN_DE_LINEA.name(),Character.toString(a),1));
-			return 6;
-		}
-		if(a == '-') {
-			ListaTokens.tokens.add(new Token(TokenType.OPERADOR_RESTA.code(),TokenType.OPERADOR_RESTA.name(),Character.toString(a),1));
-			return 7;
-		}
-		if(a == '+') {
-			ListaTokens.tokens.add(new Token(TokenType.OPERADOR_SUMA.code(),TokenType.OPERADOR_SUMA.name(),Character.toString(a),1));
-			return 8;
-		}
+		if(Character.isWhitespace(a)) return 15;
+		if(a == '{') return 2;
+		if(a == '}') return 3;
+		if(a == '(') return 4;
+		if(a == ')') return 5;
+		if(a == ';') return 6;
+		if(a == '-') return 7;
+		if(a == '+') return 8;
 		if(a == '/') return 9;
-		if(a == '*') {
-			ListaTokens.tokens.add(new Token(TokenType.OPERADOR_MULTIPLICACION.code(),TokenType.OPERADOR_MULTIPLICACION.name(),Character.toString(a),1));
-			return 10;
-		}
+		if(a == '*') return 10;
 		if(a == '<') return 11;
 		if(a == '>') return 12;
 		if(a == '!') return 13;
@@ -113,7 +88,7 @@ public class Programa {
 		//si no es nada de esto sera el final del documento
 		else return 16;
 		
-		}
+	}
 	
 	public static void leerArchivo() {
 		String palabra;
@@ -122,78 +97,86 @@ public class Programa {
 		int columna;
 		int fila;
 		//LEO EL ARCHIVO
-		try(FileReader Lector = new FileReader("\\Users\\maxim\\OneDrive\\Escritorio\\Universidad\\4) Cuarto Año\\Desarrollo de Compiladores\\Trabajo Practico\\Compilador.java\\Compilador\\src\\lex\\pruebas\\validas\\test1.txt")){
-			while((codigo = Lector.read()) > -1) {
+		try(FileReader Lector = new FileReader("/Users/waltergomez/eclipse-workspace/Compilador/src/lex/pruebas/validas/test1.txt"))
+		{
+			//LEO MIENTRAS NO SEA EL FIN DEL DOCUMENTO
+			while((codigo = Lector.read()) > -1) 
+			{
+				//CASTEO EL CODIGO A CHAR, PARA PODER TRABAJARLO
 				char c = (char) codigo;
+				//DEPENDIENDO DEL CARACTER VOY A DEVOLVER UN NUMERO DE COLUMNA
 				columna = getColumna(c);
+				//CON LA COLUMNA Y EL ESTADO DEL AF VOY A SABER LOS SALTOS QUE DEBA HACER EN LA TABLA
 				fila = AF.searchFila(columna);
 				resultado = Function_table.ejecutarFuncion(fila, columna, c);
-				if(resultado == 2) {
+				//CON EL CODIGO 2 ENTIENDO QUE SE FORMO UNA PALABRA
+				if(resultado == 2) 
+				{
+					//TRAIGO EL CONTENIDO DE LA PALABRA FORMADA
 					palabra = Function_table.getValor();
-					if(Keywords.esReservada(palabra)) {
-						palabra = palabra.toUpperCase();
-						switch(palabra){
-							case "IF":
-								ListaTokens.tokens.add(new Token(Keywords.IF.code(),palabra,palabra,1));
-								break;
-							case "ELSE":
-								ListaTokens.tokens.add(new Token(Keywords.ELSE.code(),palabra,palabra,1));
-								break;
-							case "WHILE":
-								ListaTokens.tokens.add(new Token(Keywords.WHILE.code(),palabra,palabra,1));
-								break;
-							case "VISUALIZADOR":
-								ListaTokens.tokens.add(new Token(Keywords.VISUALIZADOR.code(),palabra,palabra,1));
-								break;
-							case "AND":
-								ListaTokens.tokens.add(new Token(Keywords.AND.code(),palabra,palabra,1));
-								break;
-							case "OR":
-								ListaTokens.tokens.add(new Token(Keywords.OR.code(),palabra,palabra,1));
-								break;
-							case "INT":
-								ListaTokens.tokens.add(new Token(Keywords.INT.code(),palabra,palabra,1));
-								break;
-						}
-					}else{
-						ListaTokens.tokens.add(new Token(TokenType.IDENTIFICADOR.code(),TokenType.IDENTIFICADOR.name(),palabra,1));
+					if(Keywords.esReservada(palabra)) 
+					{
+						//VERIFICO QUE KEYWORDS ES..
+						esKeywords(palabra);
 					}
-				}else if (resultado == 3) {
-					palabra = Function_table.getValor();
-					ListaTokens.tokens.add(new Token(TokenType.NUMERO.code(),TokenType.NUMERO.name(),palabra,1));
+					else
+					{
+						//SI NO ES UNA KEYWORDS ENTONCES ES UN IDENTIFICADOR
+						ListaSimbolos.tokens.add(new Simbolo(TokenType.IDENTIFICADOR.code(),TokenType.IDENTIFICADOR.name(),palabra,1));
+						System.out.println(TokenType.IDENTIFICADOR.code());
+						
+					}
 				}
-				//System.out.println("El caracter es: " + c + " Su columna es: " + getColumna(c)+ " su fila es: "+ fila);
+				//SI EL RESULTADO ES 3 QUIERE DECIR QUE SE FORMO UN NUMERO
+				else if (resultado == 3) 
+				{
+					palabra = Function_table.getValor();
+					ListaSimbolos.tokens.add(new Simbolo(TokenType.NUMERO.code(),("_"+ palabra),palabra,1));
+					System.out.println(TokenType.NUMERO.code());
+				}
+				//SI TODO LO ANTERIOR NO SE ENCUADRA QUIERE DECIR QUE ES UN SIMBOLO
+				else if (columna>1 && columna<17) 
+				{
+					//SI EL SIMBOLO ES MAYOR A 100 TENGO UN TOKEN PARA MOSTRAR
+					if(TokenTable.getCodigo(fila, columna)>100) 
+					{
+						System.out.println(TokenTable.getCodigo(fila, columna));
+					}
+				}
 			}
-			ListaTokens.imprimirLista();
-		}catch(IOException e) {
+		}
+		catch(IOException e) 
+		{
 			System.err.println("Error al leer el archivo: " + e.getMessage());
 		}
 	}
-	/*
-	 * METODO QUE HAGA EL ANALISIS LEXICO
-	 * LEO CHAR
-	 * OBTENGO LA COLUMNA
-	 * LUEGO EN AF OBTENGO LA FILA
-	 * Y AHI AUTORIZO A HACER LA FUNCION CORRESPONDIENTE
-	 * UNA VEZ QUE LLEGUE A ESTADO FINAL
-	 * ANTES DE GUARDAR EL TOKEN TENGO QUE HACER LA VERIFICACION SI ES UNA KEYWORDS
-	 * EN CASO DE NO SERLO LO GUARDARE COMO UN  ID CON EL VALOR DE LA PALABRA FORMADA
-	 * EN CASO DE SER LA PALABRA RESERVADA GUARDARE EL TOKEN CORRESPONDIENTE A ESA PALABRA
-	 * UNA VEZ ECHO ESTO EVALUARE SI EL DOCUMENTO CONTINUA O NO 
-	 */
 	
-	
-	
-	/*
-	 * NECESITO UNA CLASE TOKEN DONDE GUARDE LOS SIGUIENTES ATRIBUTOS
-	 * 	*CODIGO
-	 * 	*NOMBRE
-	 *  *VALOR
-	 *  *POSICION
-	 * Y LUEGO TODO ESTO SETEARLO CON LAS DEMAS CLASES
-	 * NECESITAMOS UNA CLASE QUE GUARDE LA LISTA DE TOKENS
-	 * 
-	 */
-	
+	public static void esKeywords(String palabra) 
+	{
+		switch(palabra)
+		{
+		case "if":
+			System.out.println(Keywords.IF.code());
+			break;
+		case "else":
+			System.out.println(Keywords.ELSE.code());
+			break;
+		case "while":
+			System.out.println(Keywords.WHILE.code());
+			break;
+		case "visualizador":
+			System.out.println(Keywords.VISUALIZADOR.code());
+			break;
+		case "and":
+			System.out.println(Keywords.AND.code());
+			break;
+		case "or":
+			System.out.println(Keywords.OR.code());
+			break;
+		case "int":
+			System.out.println(Keywords.INT.code());
+			break;
+		}
+	}
 	
 }

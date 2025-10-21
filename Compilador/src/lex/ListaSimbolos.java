@@ -3,12 +3,12 @@ package lex;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaTokens {
+public class ListaSimbolos {
 
-	public static List <Token> tokens = new ArrayList<>();
+	public static List <Simbolo> tokens = new ArrayList<>();
 
 	public static void imprimirLista() {
-		for (Token t: tokens) {
+		for (Simbolo t: tokens) {
 			System.out.println("codigo: " + t.getCodigo() +
 					" tipo : " + t.getTipo() +
 					" valor: " + t.getValor() +
