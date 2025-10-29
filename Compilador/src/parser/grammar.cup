@@ -1,0 +1,50 @@
+/*NO PONER NINGUN ENCABEZADO COMO DICE CHAT GPT, NO HAY Q PONER IMPORT NI LAS CLASES PARSER O SYM*/											
+											/* ===== TERMINALES ===== */
+terminal INT_KW, IF, ELSE, WHILE, VISUALIZAR;
+terminal NEQ, LT, GT, LTE, GTE, EQEQ;
+terminal PLUS, MINUS, STAR, SLASH;
+terminal AND, OR, ASSIGN, SEMI, NOT;
+terminal LPAREN, RPAREN, LBRACE, RBRACE;
+terminal String IDENT;
+terminal Integer NUMBER;
+											/* ===== NO TERMINALES ===== */
+non terminal programa;
+non terminal lista_declaraciones;
+non terminal declaracion;
+non terminal lista_sentencias;
+non terminal sentencia;
+non terminal bloque;
+non terminal sentencia_if;
+non terminal sentencia_while;
+non terminal expresion, exp_or, exp_and, exp_not, exp_rel, exp_adi, exp_mul, exp_unario, primario;
+										/* ===== PRECEDENCIAS (para expr) ===== */
+									/* La presedencia en cup sirve para evitar ambiguedad.*/
+							/*Sin precedencia, CUP no sabría cómo agrupar y daría conflictos (shift/reduce).*/
+							/*Con precedencia, CUP decide qué operador se aplica primero y cómo asociar.  */
+precedence left OR;
+precedence left AND;
+precedence nonassoc EQEQ, NEQ;
+precedence nonassoc LT, LTE, GT, GTE;
+precedence left PLUS, MINUS;
+precedence left STAR, SLASH;
+precedence right NOT;
+												/* ===== PRODUCCIONES ===== */
+
+start with programa;						
+programa ::= lista_declaraciones lista_sentencias | lista_declaraciones | lista_sentencias ;
+lista_declaraciones ::= declaracion | declaracion lista_declaraciones ;
+declaracion ::= INT_KW IDENT ASSIGN NUMBER SEMI ;
+lista_sentencias ::= sentencia | sentencia lista_sentencias ;
+sentencia ::=	VISUALIZAR  LPAREN expresion RPAREN SEMI | sentencia_if | sentencia_while | bloque ;
+bloque ::= LBRACE lista_declaraciones lista_sentencias RBRACE | LBRACE lista_declaraciones RBRACE | LBRACE lista_sentencias RBRACE | LBRACE RBRACE ;
+sentencia_if ::= IF LPAREN expresion RPAREN bloque | IF LPAREN expresion RPAREN bloque ELSE bloque ;
+sentencia_while ::= WHILE LPAREN expresion RPAREN bloque ;
+expresion ::= exp_or ;
+exp_or  ::= exp_or OR exp_and | exp_and ;
+exp_and ::= exp_and AND exp_not | exp_not ;
+exp_not ::= NOT exp_not | exp_rel ;
+exp_rel ::= exp_rel EQEQ exp_adi | exp_rel NEQ exp_adi | exp_rel LT  exp_adi | exp_rel LTE exp_adi | exp_rel GT exp_adi | exp_rel GTE exp_adi | exp_adi ;       
+exp_adi ::= exp_adi PLUS exp_mul | exp_adi MINUS exp_mul | exp_mul ;
+exp_mul ::= exp_mul STAR exp_unario | exp_mul SLASH exp_unario | exp_unario ;
+exp_unario ::= MINUS exp_unario | primario ;
+primario ::= NUMBER | IDENT | LPAREN expresion RPAREN ;

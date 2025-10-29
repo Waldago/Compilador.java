@@ -1,7 +1,10 @@
 package lex;
 
 import java.io.FileReader;
+
 import java.io.IOException;
+
+import java_cup.runtime.*;
 
 public class Programa {
 
@@ -91,11 +94,7 @@ public class Programa {
 	}
 	
 	public static void leerArchivo() {
-		String palabra;
-		int resultado;
-		int codigo;
-		int columna;
-		int fila;
+		String palabra; int resultado; int codigo; int columna; int fila;
 		//LEO EL ARCHIVO
 		try(FileReader Lector = new FileReader("/Users/waltergomez/eclipse-workspace/Compilador/src/lex/pruebas/validas/test1.txt"))
 		{
@@ -151,6 +150,7 @@ public class Programa {
 		}
 	}
 	
+	//SABIENDO QUE ES UNA KEYWORD BUSCO SEGUN CUAL SEA SU CODIGO
 	public static void esKeywords(String palabra) 
 	{
 		switch(palabra)
