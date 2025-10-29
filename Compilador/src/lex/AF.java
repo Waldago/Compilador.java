@@ -70,7 +70,7 @@ public class AF {
 	public static int estadoSiguiente;
 	
 	
-	
+	//CON LA COLUMNA Y EL ESTADO DEL AF VOY A SABER LOS SALTOS QUE DEBA HACER EN LA TABLA
 	public static int searchFila(int columna) {
 		
 		estadoSiguiente = matrizDeEstado[estado][columna];

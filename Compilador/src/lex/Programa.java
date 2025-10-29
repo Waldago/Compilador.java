@@ -4,11 +4,9 @@ import java.io.FileReader;
 
 import java.io.IOException;
 
-import java_cup.runtime.*;
-
 public class Programa {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 	
 		/*
@@ -58,7 +56,7 @@ public class Programa {
 		LectorCaracteres lc = new LectorCaracteres("/Users/waltergomez/eclipse-workspace/Compilador/src/lex/pruebas/validas/test1.txt");
 		lc.leerArchivo();
 		*/
-		leerArchivo();
+		analizadorLexico();
 		ListaSimbolos.imprimirLista();
 		
 		//System.out.println(TokenTable.getCodigo(3, 15));
@@ -67,6 +65,34 @@ public class Programa {
 	
 	public static int columna;
 	
+	
+	
+	public static void analizadorLexico() throws IOException 
+	{
+		int resultado; int codigo; int columna; int fila;
+		if (leer() != null) 
+		{
+			codigo = leer().read();
+			while(codigo > -1)//LEO MIENTRAS NO SEA EL FIN DEL DOCUMENTO
+			{
+				char c = (char) codigo;//CASTEO EL CODIGO A CHAR, PARA PODER TRABAJARLO
+				columna = getColumna(c);
+				fila = AF.searchFila(columna);
+				resultado = Function_table.ejecutarFuncion(fila, columna, c);
+				if(resultado == 2) esPalabra();//CON EL CODIGO 2 QUIERE DECIR QUE UNA PALABRA SE FORMO
+				else if (resultado == 3) esNumero();//SI EL RESULTADO ES 3 QUIERE DECIR QUE SE FORMO UN NUMERO
+				else if (columna>1 && columna<17) //SI TODO LO ANTERIOR NO SE ENCUADRA QUIERE DECIR QUE ES UN SIMBOLO
+				{
+					if(TokenTable.getCodigo(fila, columna)>100)//SI EL SIMBOLO ES MAYOR A 100 TENGO UN TOKEN PARA MOSTRAR
+					{
+						System.out.println(TokenTable.getCodigo(fila, columna));
+					}
+				}
+			}
+		}
+	}
+	
+	//DEPENDIENDO DEL CARACTER VOY A DEVOLVER UN NUMERO DE COLUMNA
 	public static int getColumna(char a) 
 	{
 		//EVALUA SI a ES UNA LETRA
@@ -93,63 +119,40 @@ public class Programa {
 		
 	}
 	
-	public static void leerArchivo() {
-		String palabra; int resultado; int codigo; int columna; int fila;
+	public static FileReader leer() {
 		//LEO EL ARCHIVO
-		try(FileReader Lector = new FileReader("/Users/waltergomez/eclipse-workspace/Compilador/src/lex/pruebas/validas/test1.txt"))
-		{
-			//LEO MIENTRAS NO SEA EL FIN DEL DOCUMENTO
-			while((codigo = Lector.read()) > -1) 
-			{
-				//CASTEO EL CODIGO A CHAR, PARA PODER TRABAJARLO
-				char c = (char) codigo;
-				//DEPENDIENDO DEL CARACTER VOY A DEVOLVER UN NUMERO DE COLUMNA
-				columna = getColumna(c);
-				//CON LA COLUMNA Y EL ESTADO DEL AF VOY A SABER LOS SALTOS QUE DEBA HACER EN LA TABLA
-				fila = AF.searchFila(columna);
-				resultado = Function_table.ejecutarFuncion(fila, columna, c);
-				//CON EL CODIGO 2 ENTIENDO QUE SE FORMO UNA PALABRA
-				if(resultado == 2) 
-				{
-					//TRAIGO EL CONTENIDO DE LA PALABRA FORMADA
-					palabra = Function_table.getValor();
-					if(Keywords.esReservada(palabra)) 
-					{
-						//VERIFICO QUE KEYWORDS ES..
-						esKeywords(palabra);
-					}
-					else
-					{
-						//SI NO ES UNA KEYWORDS ENTONCES ES UN IDENTIFICADOR
-						ListaSimbolos.tokens.add(new Simbolo(TokenType.IDENTIFICADOR.code(),TokenType.IDENTIFICADOR.name(),palabra,1));
-						System.out.println(TokenType.IDENTIFICADOR.code());
-						
-					}
-				}
-				//SI EL RESULTADO ES 3 QUIERE DECIR QUE SE FORMO UN NUMERO
-				else if (resultado == 3) 
-				{
-					palabra = Function_table.getValor();
-					ListaSimbolos.tokens.add(new Simbolo(TokenType.NUMERO.code(),("_"+ palabra),palabra,1));
-					System.out.println(TokenType.NUMERO.code());
-				}
-				//SI TODO LO ANTERIOR NO SE ENCUADRA QUIERE DECIR QUE ES UN SIMBOLO
-				else if (columna>1 && columna<17) 
-				{
-					//SI EL SIMBOLO ES MAYOR A 100 TENGO UN TOKEN PARA MOSTRAR
-					if(TokenTable.getCodigo(fila, columna)>100) 
-					{
-						System.out.println(TokenTable.getCodigo(fila, columna));
-					}
-				}
-			}
-		}
-		catch(IOException e) 
-		{
+		try (FileReader Lector = new FileReader("/Users/waltergomez/eclipse-workspace/Compilador/src/lex/pruebas/validas/test1.txt")){
+			return Lector;
+		}catch(IOException e) {
 			System.err.println("Error al leer el archivo: " + e.getMessage());
+			return null;
 		}
 	}
 	
+	public static void esPalabra() {
+		String palabra;
+		//TRAIGO EL CONTENIDO DE LA PALABRA FORMADA
+		palabra = Function_table.getValor();
+		if(Keywords.esReservada(palabra)) 
+		{
+			//VERIFICO QUE KEYWORDS ES..
+			esKeywords(palabra);
+		}
+		else
+		{
+			//SI NO ES UNA KEYWORDS ENTONCES ES UN IDENTIFICADOR
+			ListaSimbolos.tokens.add(new Simbolo(TokenType.IDENTIFICADOR.code(),TokenType.IDENTIFICADOR.name(),palabra,1));
+			System.out.println(TokenType.IDENTIFICADOR.code());
+			
+		}
+	}
+	
+	public static void esNumero() {
+		String palabra;
+		palabra = Function_table.getValor();
+		ListaSimbolos.tokens.add(new Simbolo(TokenType.NUMERO.code(),("_"+ palabra),palabra,1));
+		System.out.println(TokenType.NUMERO.code());
+	}
 	//SABIENDO QUE ES UNA KEYWORD BUSCO SEGUN CUAL SEA SU CODIGO
 	public static void esKeywords(String palabra) 
 	{
