@@ -8,7 +8,7 @@ public class Sintactico {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		Lexico prog = new Lexico();
-		Lexico.analizadorLexico();
+		Lexico.analizadorLexico("/Users/waltergomez/eclipse-workspace/Compilador/src/lex/pruebas/validas/test3.txt");
 		prog.imprimirLista();
 		Parser p = new Parser(prog);
 		Symbol result = p.parse();

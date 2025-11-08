@@ -4,7 +4,7 @@ public enum Keywords {
 	IF(261),
 	ELSE(262),
 	WHILE(263),
-	VISUALIZADOR(268),
+	VISUALIZAR(268),
 	AND(279),
 	OR(280),
 	INT(258);

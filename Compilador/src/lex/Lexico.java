@@ -55,10 +55,11 @@ public class Lexico implements Scanner{
 		AF.verEstadoActual();
 		System.out.println(AF.searchFila(4));
 		AF.verEstadoActual();
-		*/
+		
 		analizadorLexico();
 		Lexico l = new Lexico();
 		l.imprimirLista();
+		*/
 	}
 	
 	
@@ -68,10 +69,10 @@ public class Lexico implements Scanner{
 	
 	private static int posicion=0;
 	
-	public static void analizadorLexico() {
+	public static void analizadorLexico(String path) {
 		int resultado; int codigo; int columna; int fila;
 		//LEO EL ARCHIVO
-		try(PushbackReader Lector = new PushbackReader(new FileReader("/Users/waltergomez/eclipse-workspace/Compilador/src/lex/pruebas/validas/test1.txt")))
+		try(PushbackReader Lector = new PushbackReader(new FileReader(path)))
 		{
 			while((codigo = Lector.read()) > -1) //Si lee correctamente un carácter, te devuelve su código numérico (por ejemplo, 'A' → 65). Si llega al final del archivo, devuelve -1.
 			{
