@@ -5,8 +5,6 @@
 
 package parser;
 
-import java_cup.runtime.XMLElement;
-
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
   */
 @SuppressWarnings({"rawtypes"})
@@ -698,4 +696,26 @@ class CUP$Parser$actions {
     }
 }
 
+@Override
+public void syntax_error(java_cup.runtime.Symbol cur_token) {
+    String nombreToken = sym.terminalNames[cur_token.sym];
+    System.err.println(
+        "Error de sintaxis" + 
+        " cerca de '" + cur_token.value +
+        "' (token " + nombreToken + ")"
+    );
+}
+
+@Override
+public void unrecovered_syntax_error(java_cup.runtime.Symbol cur_token)
+    throws java.lang.Exception {
+    
+    String nombreToken = sym.terminalNames[cur_token.sym];
+    System.err.println(
+        "Error de sintaxis no recuperable" + 
+        " cerca de '" + cur_token.value +
+        "' (token " + nombreToken + ")"
+    );
+    throw new Exception("Error de sintaxis: parseo abortado");
+}
 }

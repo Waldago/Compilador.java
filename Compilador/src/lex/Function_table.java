@@ -40,7 +40,7 @@ public class Function_table {
 	
 	public static String number;
 	
-	public static int contador = 0;
+	public static int contador = 0;//cuento los caracteres de la palabra
 	
 	public static int long_max = 30;
 	

@@ -85,11 +85,4 @@ public class AF {
 			return estadoAnterior;
 		}
 	}
-	
-	
-	
-	public static void verEstadoActual() {
-		System.out.println("Estado: "+estado);
-	}
-	
 }

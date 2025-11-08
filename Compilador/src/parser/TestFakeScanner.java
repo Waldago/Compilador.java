@@ -8,10 +8,13 @@ public class TestFakeScanner {
     static class FakeScanner implements Scanner {
         private final Symbol[] s; private int i=0;
         FakeScanner(Symbol... s){ this.s=s; }
-        @Override public Symbol next_token(){ return (i<s.length)? s[i++] : new Symbol(sym.EOF); }
+        @Override public Symbol next_token(){ 
+        	return (i<s.length) ? s[i++] : new Symbol(sym.EOF); 
+        	}
     }
 
-    public static void main(String[] args) throws Exception {
+    @SuppressWarnings({ "deprecation", "unused" })
+	public static void main(String[] args) throws Exception {
 
         // PROG_A: SOLO DECLARACIONES  ->  programa ::= lista_declaraciones
         // int x = 5;

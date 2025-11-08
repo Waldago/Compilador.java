@@ -3,25 +3,25 @@ package lex;
 public enum TokenType {
 	EOF(0),
 	ERROR(-1),
-	IDENTIFICADOR(256),
-	NUMERO(257),
-	ASIGNACION(259),
-	FIN_DE_LINEA(260),
-	LLAVE_ABRE(264),
-	LLAVE_CIERRA(265),
-	PAR_PARENTESIS_ABRE(266),
-	PAR_PARENTESIS_CIERRA(267),
-	OPERADOR_SUMA(269),
-	OPERADOR_RESTA(270),
-	OPERADOR_MULTIPLICACION(271),
-	OPERADOR_DIVISION(272),
-	COMPARADOR_IGUAL(273),
-	COMPARADOR_DISTINTO(274),
-	COMPARADOR_MENOR(275),
-	COMPARADOR_MAYOR(276),
-	COMPARADOR_MENOR_IGUAL(277),
-	COMPARADOR_MAYOR_IGUAL(278),
-	OPERADOR_not(281);
+	IDENT(256),
+	NUMBER(257),
+	ASSIGN(259),
+	SEMI(260),
+	LBRACE(264),
+	RBRACE(265),
+	LPAREN(266),
+	RPAREN(267),
+	PLUS(269),
+	MINUS(270),
+	STAR(271),
+	SLASH(272),
+	EQEQ(273),
+	NEQ(274),
+	LT(275),
+	GT(276),
+	LTE(277),
+	GTE(278),
+	NOT(281);
 	
 	private final int code;
 	
@@ -34,7 +34,19 @@ public enum TokenType {
 	{
 		return code;
 	}
-
-	
+    // 🔹 Método estático para obtener el TokenType a partir del código
+    public static TokenType fromCode(int code) {
+        for (TokenType t : TokenType.values()) {
+            if (t.code == code) {
+                return t;
+            }
+        }
+        return null; // o ERROR si preferís no devolver null
+    }
+    // 🔹 Método que devuelve solo el nombre como String
+    public static String nameFromCode(int code) {
+        TokenType t = fromCode(code);
+        return (t != null) ? t.name() : "DESCONOCIDO";
+    }
 	
 }

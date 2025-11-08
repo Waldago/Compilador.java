@@ -15,6 +15,4 @@ public class ListaSimbolos {
 					" posicion: " + t.getPosicion());
 		}
 	}
-	
-	
 }

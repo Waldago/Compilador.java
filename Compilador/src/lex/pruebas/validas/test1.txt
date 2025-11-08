@@ -1,2 +1,1 @@
-int x = 5 ; //pepe/pp//caca
-lkhh
+while ( x <= 5 ) { int x = 6;}
